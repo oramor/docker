@@ -1,0 +1,3 @@
+services:
+  ngx1:
+    hostname: ngx1
