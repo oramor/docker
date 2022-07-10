@@ -1,0 +1,38 @@
+networks:
+  default:
+    driver: bridge
+    attachable: true
+    enable_ipv6: false
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.41.0.0/16
+
+services:
+  site:
+    build: ./docker/site
+    container_name: t2-site
+    hostname: site
+    expose: [3000]
+    ports:
+      - 3000:3000
+    volumes:
+      - type: bind
+        source: ${ROOT_DIR}
+        target: ${ROOT_DIR}
+    working_dir: ${PROJ_DIR}
+    command: node main.js
+  nginx:
+    build: ./docker/nginx
+    container_name: t2-nginx
+    hostname: nginx
+    expose: [80, 443]
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - type: bind
+        source: ${PROJ_DIR}/docker/nginx/nginx.conf
+        target: /etc/nginx/nginx.conf
+    depends_on:
+      - site
