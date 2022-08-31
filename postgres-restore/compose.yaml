@@ -1,0 +1,20 @@
+volumes:
+  postgres-restore-vol:
+    name: postgres-restore-vol
+
+services:
+  test:
+    #image: postgres:14.4-alpine3.16
+    build: .
+    environment:
+      - POSTGRES_PASSWORD=test
+    container_name: pg_test
+    ports:  
+      - 5435:5432 #external:internal
+    volumes:
+      - type: volume
+        source: postgres-restore-vol
+        target: /var/lib/postgresql/data
+      # - type: bind
+      #   source: /home/romaro/docker/postgres-restore/test.sh
+      #   target: /var/test.sh

@@ -1,0 +1,8 @@
+services:
+  inter:
+    image: alpine:3.16
+    tty: true
+    stdin_open: true
+    container_name: inter
+    entrypoint:
+     - ash
